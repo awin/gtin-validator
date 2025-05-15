@@ -11,6 +11,50 @@ use Real\Validator\Gtin;
  */
 final class Prefix implements Gtin\Specification
 {
+    private const ADDITIONAL_VALID_PREFIXES = [
+        // Range format: [lower_bound, upper_bound]
+        ['140', '199'],
+        ['381', '381'],
+        ['382', '382'],
+        ['384', '384'],
+        ['386', '386'],
+        ['388', '388'],
+        ['390', '399'],
+        ['441', '449'],
+        ['472', '472'],
+        ['473', '473'],
+        ['510', '519'],
+        ['522', '527'],
+        ['532', '534'],
+        ['536', '538'],
+        ['550', '559'],
+        ['561', '568'],
+        ['580', '589'],
+        ['591', '593'],
+        ['595', '598'],
+        ['602', '602'],
+        ['605', '605'],
+        ['606', '606'],
+        ['610', '610'],
+        ['612', '612'],
+        ['614', '614'],
+        ['623', '623'],
+        ['632', '639'],
+        ['650', '679'],
+        ['682', '689'],
+        ['710', '728'],
+        ['747', '749'],
+        ['751', '753'],
+        ['756', '758'],
+        ['772', '772'],
+        ['774', '774'],
+        ['776', '776'],
+        ['781', '783'],
+        ['785', '785'],
+        ['787', '787'],
+        ['788', '788'],
+    ];
+
     private const GS1_COUNTRY_PREFIXES = [
         // @formatter:off
         ['300', '379'], // GS1 France
@@ -189,6 +233,6 @@ final class Prefix implements Gtin\Specification
             $list = self::GS1_8_PREFIXES;
         }
 
-        return array_merge($list, self::GS1_COUNTRY_PREFIXES);
+        return array_merge($list, self::GS1_COUNTRY_PREFIXES, self::ADDITIONAL_VALID_PREFIXES);
     }
 }
