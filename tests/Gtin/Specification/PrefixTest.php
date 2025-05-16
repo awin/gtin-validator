@@ -73,4 +73,71 @@ class PrefixTest extends TestCase
 
         self::assertSame($isSatisfied, $specification->isSatisfied($gtin));
     }
+
+    public function additionalValidPrefixesProvider(): iterable
+    {
+        $ranges = [
+            ['140', '199'],
+            ['381', '381'],
+            ['382', '382'],
+            ['384', '384'],
+            ['386', '386'],
+            ['388', '388'],
+            ['390', '399'],
+            ['441', '449'],
+            ['472', '472'],
+            ['473', '473'],
+            ['510', '519'],
+            ['522', '527'],
+            ['532', '534'],
+            ['536', '538'],
+            ['550', '559'],
+            ['561', '568'],
+            ['580', '589'],
+            ['591', '593'],
+            ['595', '598'],
+            ['602', '602'],
+            ['605', '605'],
+            ['606', '606'],
+            ['610', '610'],
+            ['612', '612'],
+            ['614', '614'],
+            ['623', '623'],
+            ['632', '639'],
+            ['650', '679'],
+            ['682', '689'],
+            ['710', '728'],
+            ['747', '749'],
+            ['751', '753'],
+            ['756', '758'],
+            ['772', '772'],
+            ['774', '774'],
+            ['776', '776'],
+            ['781', '783'],
+            ['785', '785'],
+            ['787', '787'],
+            ['788', '788'],
+        ];
+
+        foreach ($ranges as [$lower, $upper]) {
+            yield $lower => [$lower, 13, true]; // Valid prefix
+            yield strval((int) $lower - 1) => [strval((int) $lower - 1), 13, false]; // Invalid below
+            yield strval((int) $upper + 1) => [strval((int) $upper + 1), 13, false]; // Invalid above
+        }
+    }
+
+    /**
+     * @dataProvider additionalValidPrefixesProvider
+     */
+    public function testAdditionalValidPrefixes(string $prefix, bool $isSatisfied): void
+    {
+        $specification = new Gtin\Specification\Prefix();
+
+        /** @var Gtin $gtin */
+        $gtin = $this->createConfiguredMock(Gtin::class, [
+            'prefix' => $prefix,
+        ]);
+
+        self::assertSame($isSatisfied, $specification->isSatisfied($gtin));
+    }
 }
